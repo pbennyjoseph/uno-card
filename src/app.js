@@ -34,7 +34,8 @@ io.on('connection', (socket) => {
                 room: data.room,
                 id: room.length - 1,
             })
-        } else {
+        } 
+        else {
             socket.emit('err', {
                 message: 'Sorry, The room is full!'
             });
