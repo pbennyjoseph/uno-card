@@ -1,7 +1,10 @@
-const CARDS = ['r', 'b', 'g', 'y'];
-const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'rev', 'skip', 'wild', '+2', '+4'];
+const CARDS = ['red', 'blue', 'green', 'yellow'];
+const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'reverse', 'skip', 'wild', '+2', '+4'];
 let player;
 let game;
+
+$('.footer').hide();
+$('.card').hide();
 
 $('#new').on('click', () => {
     const name = $('#name').val();
@@ -10,6 +13,10 @@ $('#new').on('click', () => {
         return;
     }
     $("#starterForm").hide();
+    
+    $('.footer').show();
+    $('.card').show();
+
     socket.emit('createGame', {
         name,
     });
@@ -17,13 +24,20 @@ $('#new').on('click', () => {
 });
 
 $('#join').on('click', () => {
+    
     const name = $('#name').val();
     const roomID = $('#room').val();
+    
     if (!name || !roomID) {
         // alert('Please enter your name and game ID.');
         return;
     }
+
     $("#starterForm").hide();
+
+    $('.footer').show();
+    $('.card').show();
+
     socket.emit('joinGame', {
         name,
         room: roomID

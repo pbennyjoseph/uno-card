@@ -53,8 +53,9 @@ class Game {
     createGameTable() {
         var initArray = player.getPlaysArr();
         for (var i = 0; i < initArray.length; ++i) {
-            var randId = makeid(5)
-            $("#mycards").append(`<button class="btn btn-primary mx-1 my-1" value="${initArray[i]}" id="${randId}">${initArray[i]}</button>`)
+            var randId = makeid(5);
+            var src = './img/uno_card-'+initArray[i]+'.webp';
+            $("#mycards").append(`<img src="${src}" class="img-fluid" alt = "${initArray[i]}" value="${initArray[i]}" id="${randId}"/>`);
             $(`#${randId}`).on('click', cardClickHandler);
         }
     }

@@ -1,7 +1,7 @@
 function randCard() {
     var color = CARDS[Math.floor(Math.random() * CARDS.length)];
     var digit = digits[Math.floor(Math.random() * digits.length)];
-    return color + '-' + digit;
+    return color + digit;
 }
 
 function makeid(length) {
