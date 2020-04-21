@@ -29,7 +29,7 @@
 
 <body>
 
-	<form class="form" action="#" id="starter_form">
+	<form class="form" id="starterForm">
 		<input id="name" type="text" class="form-control mb-3" placeholder="Player Name" aria-label="Player Name"
 			aria-describedby="basic-addon2" required>
 
@@ -45,17 +45,27 @@
 	</form>
 
 	<div class="form">
-		<h3 id="userHello"></h2>
-		<h3 id="turn"></h3>
-		<span id="table"></span>
+		<div class="card">
+			<div class="card-body">
+				<h3 id="userHello"></h2>
+				<h3 id="turn"></h3>
+				<span id="table">
+					
+				</span>
+			</div>
+			<!-- <div id="startGameDiv">
+			</div>  -->
+		</div>
 	</div>
 
 	<footer class="footer">
-		<div class="container"><span id="mycards"></span></div>
+		<div class="container">
+			<span id="mycards"></span>
+		</div>
 	</footer>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
 </body>
 
 </html>

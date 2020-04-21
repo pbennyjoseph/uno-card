@@ -11,8 +11,10 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
         constructor(name, id) {
             this.name = name;
             this.id = id;
+            this.creator = false;
             this.currentTurn = true;
             this.playsArr = [];
+            this.hasCards = 0;
             this.createPlayerCards();
         }
 
@@ -22,17 +24,17 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
                 var card = randCard();
                 this.playsArr.push(card);
             }
+            this.hasCards = 7;
         }
 
-        get wins() {
-            return this.playsArr.length == 0;
+        wins() {
+            return this.hasCards === 0;
         }
 
         getPlaysArr() {
             return this.playsArr;
         }
 
-        // Set the currentTurn for player to turn and update UI to reflect the same.
         setCurrentTurn(turn) {
             this.currentTurn = turn;
             const message = turn ? 'Your turn' : 'Waiting for others..';
@@ -51,14 +53,12 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
     class Game {
         constructor(roomId, player) {
             this.roomId = roomId;
+            this.reverse = 0;
             this.table = [];
         }
 
         createGameTable() {
-            
             function cardClickHandler() {
-                const row = parseInt(this.id.split('_')[1][0], 10);
-                const col = parseInt(this.id.split('_')[1][1], 10);
                 if (!player.getCurrentTurn() || !game) {
                     alert('Its not your turn!');
                     return;
@@ -70,11 +70,9 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
                 }
 
                 game.playTurn(this);
-                game.updateCards(player.getPlayerType(), row, col, this.id);
-
+                this.remove();
+                --player.hasCards;
                 player.setCurrentTurn(false);
-                player.updatePlaysArr(1 << ((row * 3) + col));
-
                 game.checkWinner();
             }
 
@@ -83,7 +81,6 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
                 $("#mycards").append(`<button class="btn btn-primary mx-1 my-1" value="${initArray[i]}" id="${i}">${initArray[i]}</button>`)
                 $(`#${i}`).on('click', cardClickHandler);
             }
-
         }
 
         displayCards(message) {
@@ -91,20 +88,30 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
             this.createGameTable();
         }
 
-        updateCards(cardElem) {
-            cardElem.remove();
-        }
-
         getRoomId() {
             return this.roomId;
         }
 
         playTurn(cardElem) {
-            const clickedCard = cardElem.attr('value');
+            const clickedCard = $(cardElem).attr('value');
+            let draw, reverse = 0, hasSkip = 1;
+            if(clickedCard.includes('rev'))
+                reverse = 1;
+            if(clickedCard.includes('skip'))
+                hasSkip = 2;
+            if(clickedCard.includes('+') && clickedCard[clickedCard.length - 1] === '2')
+                draw = 2;
+            if(clickedCard.includes('+') && clickedCard[clickedCard.length - 1] === '4')
+                draw = 4;
+            this.reverse ^= reverse;
 
+            var next = (player.id + hasSkip*(this.reverse==1?-1:1) + 4)%4;
             socket.emit('playTurn', {
                 card: clickedCard,
                 room: this.getRoomId(),
+                reverse,
+                draw,
+                next,
             });
         }
 
@@ -120,7 +127,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
                 room: this.getRoomId(),
                 message: winMessage,
             });
-            alert(winMessage);
+            // alert(winMessage);
             location.reload();
         }
 
@@ -133,16 +140,16 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
     function randCard() {
         var color = CARDS[Math.floor(Math.random() * CARDS.length)];
         var digit = digits[Math.floor(Math.random() * digits.length)];
-        return color + digit;
+        return color + '-' +  digit;
     }
 
     $('#new').on('click', () => {
         const name = $('#name').val();
         if (!name) {
-            alert('Please enter your name.');
+            // alert('Please enter your name.');
             return;
         }
-        $("#starter_form").remove()
+        $("#starterForm").hide();
         socket.emit('createGame', {
             name,
         });
@@ -153,66 +160,72 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
         const name = $('#name').val();
         const roomID = $('#room').val();
         if (!name || !roomID) {
-            alert('Please enter your name and game ID.');
+            // alert('Please enter your name and game ID.');
             return;
         }
-        $("#starter_form").remove()
+        $("#starterForm").hide();
         socket.emit('joinGame', {
             name,
             room: roomID
         });
         // player = new Player(name, 0);
     });
-
-    // New Game created by current client. Update the UI and create new Game var.
-    socket.on('newGame', (data) => {
-        const message =
-            `Hello, ${data.name}. Please ask your friend to enter Game ID: 
-        ${data.room}. Waiting for others..`;
-        player = new Player(data.name, data.id);
-        game = new Game(data.room);
-        game.displayCards(message);
-    });
-
-    /**
-     * If player creates the game, he'll be P1(X) and has the first turn.
-     * This event is received when opponent connects to the room.
-     */
-    socket.on('player1', (data) => {
-        const message = `Hello, ${player.getPlayerName()}`;
-        $('#userHello').html(message);
-        player.setCurrentTurn(true);
-    });
-
-    socket.on('player2', (data) => {
-        const message = `Hello, ${data.name}`;
-        game = new Game(data.room);
-        game.displayCards(message);
-        player = new Player(data.name, data.id);
-        player.setCurrentTurn(false);
-    });
+    
+    $('#starterForm').submit(() => {return false;});
 
     socket.on('turnPlayed', (data) => {
-        const row = data.tile.split('_')[1][0];
-        const col = data.tile.split('_')[1][1];
-        const opponentType = player.getPlayerType() === P1 ? P2 : P1;
-
-        game.updateCards(card);
-        player.setCurrentTurn(true);
+        // TODO player logic to change image
+        if(data.reverse === 0);
+        else game.reverse ^= 1;
+        $("#tableCard").html(data.card);
+        console.log(data);
+        if(data.next === player.id)
+            player.setCurrentTurn(true);
     });
-
-    // If the other player wins, this event is received. Notify user game has ended.
+    
     socket.on('gameEnd', (data) => {
         game.endGame(data.message);
         socket.leave(data.room);
     });
 
-    /**
-     * End the game on any err event. 
-     */
     socket.on('err', (data) => {
         game.endGame(data.message);
     });
 
+    socket.on('newGame', (data) => {
+        const message =
+            `Hello, ${data.name}.<br> Please ask your friend to enter Game ID: 
+        ${data.room}.<br>Waiting for others..`;
+        player = new Player(data.name, data.id);
+        player.creator = true;
+        game = new Game(data.room);
+        game.displayCards(message);
+        $("#starter_form").hide();
+    });
+
+    socket.on('player1', (data) => {
+        $('#table').append(`<button class="btn btn-primary mx-1 my-1" value="${data.card}" id="tableCard">${data.card}</button>`);
+        if(!player.creator) return false;
+        const message = `Hello, ${player.getPlayerName()}`;
+        $('#userHello').html(message);
+        // $("#startGameDiv").append(`<button id="startGame" class="btn btn-primary">Start Game</button>`);
+        // $("#startGame").on('click', () => {
+        //     var color = CARDS[Math.floor(Math.random() * CARDS.length)];
+        //     var digit = digits[Math.floor(Math.random() * 19)];
+        //     var card = color + '-' + digit;
+        //     socket.emit('gameStart', {card: card});
+        //     $("#startGameDiv").remove();
+        // });
+        player.setCurrentTurn(true);
+    });
+  
+
+    socket.on('player2', (data) => {
+        const message = `Hello, ${data.name}`;
+        player = new Player(data.name, data.id);
+        game = new Game(data.room);
+        game.displayCards(message);
+        player.setCurrentTurn(false);
+    });
 
 }());
