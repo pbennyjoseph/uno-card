@@ -1,29 +1,59 @@
 <!DOCTYPE html>
-<!-- saved from url=(0051)https://getbootstrap.com/docs/4.0/examples/sign-in/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
+<html lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link rel="icon" href="./favico.ico">
-	
+
 	<title>UNO</title>
-	
-	<link href="./css/bootstrap.min.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 	<link href="./css/signin.css" rel="stylesheet">
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+	</script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+	</script>
 </head>
 
-<body >
+<body>
+
+	<form class="form" id="starter_form">
+		<input type="text" class="form-control mb-3" placeholder="Player Name" aria-label="Player Name"
+			aria-describedby="basic-addon2" required>
+
+		<input type="text" class="form-control mb-3" placeholder="Enter Code" aria-label="Enter Code"
+			aria-describedby="basic-addon2">
+		<!-- 
+		<label for="players" id="playerLabel">Players: 2</label>
+		<input type="range" class="custom-range" min="2" max="12" step="1" id="players" value="2"> -->
+
+		<button id="new" class="btn btn-primary btn-block">Create New Game</button>
+
+		<button id="join" class="btn btn-primary btn-block">Join Game</button>
+	</form>
 
 	<div class="form">
-		<input type="text" class="form-control mb-3" placeholder="Player Name" aria-label="Player Name" aria-describedby="basic-addon2">
-
- 		<input type="text" class="form-control mb-3" placeholder="Enter Code" aria-label="Enter Code" aria-describedby="basic-addon2">
-
-		<button id="CreateGame" class="btn btn-lg btn-primary btn-block" >Create New Game</button>
-
-		<button id="JoinGame" class="btn btn-lg btn-primary btn-block" >Join Game</button>
+		<h2 id="userHello"></h2>
+		<h3 id="turn"></h3>
+		<span id="table"></span>
 	</div>
-		
+
+	<footer class="footer">
+		<div class="container"><span id="mycards">hello there</span></div>
+	</footer>
+
 </body>
+
 </html>

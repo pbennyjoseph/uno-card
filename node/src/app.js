@@ -1,86 +1,55 @@
-const path = require('path')
-const express = require('express')
-const hbs = require('hbs')
-const geocode = require('./utils/geocode')
-const forecast = require('./utils/forecast')
+const express = require('express');
+const path = require('path');
 
-const app = express()
-const port = process.env.PORT || 3000
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
-// Define paths for express config
-const publicDirPath = path.join(__dirname,'../public')
-const viewsPath = path.join(__dirname,"../templates/views")
-const partialsPath = path.join(__dirname,"../templates/partials")
+let rooms = 0;
 
-// Setup handlebars engine and views location
-app.set('view engine','hbs')
-app.set('views',viewsPath)
-hbs.registerPartials(partialsPath)
+app.use(express.static('.'));
 
-// Setup static directory to serve
-app.use(express.static(publicDirPath))
+app.get('/', (req, res) => {
+    res.send('Welcome to game server!')
+});
 
-app.get('', (req, res) => {
-    res.render('index',{
-        title: 'Weather',
-        name: 'Benny Joseph'
-    })
-})
+io.on('connection', (socket) => {
 
-app.get('/about', (req, res) => {
-    res.render('about', {
-        title: 'About',
-        name: 'Benny Joseph'
-    })
-})
+    // Create a new game room and notify the creator of game.
+    socket.on('createGame', (data) => {
+        socket.roomLength = data.length
+        socket.join(`room-${++rooms}`);
+        socket.emit('newGame', { name: data.name, room: `room-${rooms}` });
+    });
 
-app.get('/help', (req, res) => {
-    res.render('help',{
-        title: 'This is help page',
-        message: 'The site is still under development',
-        name: 'Benny Joseph'
-    })
-})
-
-app.get('/weather', (req,res) => {
-    if(!req.query.address){
-        return res.send({
-            error: 'You must provide an address'
-        })
-    }
-
-    geocode(req.query.address,(error,{latitude,longitude,location } = {}) => {
-        if(error){
-            return res.send({error})
+    // Connect the Player 2 to the room he requested. Show error if room full.
+    socket.on('joinGame', function (data) {
+        var room = io.nsps['/'].adapter.rooms[data.room];
+        if (room && room.length === socket.roomLength) {
+            socket.join(data.room);
+            socket.broadcast.to(data.room).emit('player1', {});
+            socket.emit('player2', { name: data.name, room: data.room })
+        } else {
+            socket.emit('err', { message: 'Sorry, The room is full!' });
         }
-        forecast(latitude, longitude, (error, forecastdata) => {
-            if(error) {
-                return res.send({error})
-            }
-            res.send({
-                location: location,
-                forecast: forecastdata
-            })
-        })
-    })
-})
+    });
 
-app.get('/help/*', (req,res) => {
-    res.render('error',{
-        errcode: 404,
-        message: "Help article not found",
-        name: "Benny Joseph"
-    })
-})
+    /**
+       * Handle the turn played by either player and notify the other.
+       */
+    socket.on('playTurn', (data) => {
+        socket.broadcast.to(data.room).emit('turnPlayed', {
+            tile: data.tile,
+            room: data.room
+        });
+    });
 
-app.get('*', (req, res) => {
-    res.render('error', {
-        errcode: 404,
-        message: 'This page does not exist on the server',
-        name: "Benny Joseph"
-    })
-})
+    /**
+       * Notify the players about the victor.
+       */
+    socket.on('gameEnded', (data) => {
+        socket.broadcast.to(data.room).emit('gameEnd', data);
+    });
+});
 
-app.listen(port , () => {
-    console.log('Server is up on port '+port)
-})
+server.listen(process.env.PORT || 5000);
