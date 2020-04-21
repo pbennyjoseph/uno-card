@@ -54,6 +54,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
         }
 
         createGameTable() {
+            
             function cardClickHandler() {
                 const row = parseInt(this.id.split('_')[1][0], 10);
                 const col = parseInt(this.id.split('_')[1][1], 10);
@@ -75,12 +76,15 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
 
                 game.checkWinner();
             }
+
             var initArray = player.getPlaysArr();
             for (var i = 0; i < initArray.length; ++i) {
                 $("#mycards").append(`<button class="btn btn-primary mx-1 my-1" value="${initArray[i]}" id="${i}">${initArray[i]}</button>`)
                 $(`#${i}`).on('click', cardClickHandler);
             }
+
         }
+
         displayCards(message) {
             $('#userHello').html(message);
             this.createGameTable();
@@ -137,6 +141,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
             alert('Please enter your name.');
             return;
         }
+        $("#starter_form").remove()
         socket.emit('createGame', {
             name,
         });
@@ -150,6 +155,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
             alert('Please enter your name and game ID.');
             return;
         }
+        $("#starter_form").remove()
         socket.emit('joinGame', {
             name,
             room: roomID
