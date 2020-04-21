@@ -7,17 +7,17 @@ const io = require('socket.io')(server);
 
 let rooms = 0;
 
-app.use(express.static('../../public'));
+// app.use(express.static('../../public'));
 
 io.on('connection', (socket) => {
 
     // Create a new game room and notify the creator of game.
     socket.on('createGame', (data) => {
-        socket.roomLength = data.length
         socket.join(`room-${++rooms}`);
         socket.emit('newGame', {
             name: data.name,
-            room: `room-${rooms}`
+            room: `room-${rooms}`,
+            id: 0,
         });
         console.log('Creating new game');
     });
@@ -26,11 +26,13 @@ io.on('connection', (socket) => {
     socket.on('joinGame', function (data) {
         var room = io.nsps['/'].adapter.rooms[data.room];
         if (room && room.length <= 3) {
+            if (room.length === 3)
+                socket.broadcast.to(data.room).emit('player1', {});
             socket.join(data.room);
-            socket.broadcast.to(data.room).emit('player1', {});
             socket.emit('player2', {
                 name: data.name,
-                room: data.room
+                room: data.room,
+                id: room.length - 1,
             })
         } else {
             socket.emit('err', {

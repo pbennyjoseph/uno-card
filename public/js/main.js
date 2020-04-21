@@ -8,8 +8,9 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
     const socket = io.connect('http://localhost:5000');
 
     class Player {
-        constructor(name) {
+        constructor(name, id) {
             this.name = name;
+            this.id = id;
             this.currentTurn = true;
             this.playsArr = [];
             this.createPlayerCards();
@@ -68,7 +69,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
                 }
 
                 game.playTurn(this);
-                game.updateBoard(player.getPlayerType(), row, col, this.id);
+                game.updateCards(player.getPlayerType(), row, col, this.id);
 
                 player.setCurrentTurn(false);
                 player.updatePlaysArr(1 << ((row * 3) + col));
@@ -140,7 +141,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
         socket.emit('createGame', {
             name,
         });
-        player = new Player(name);
+        // player = new Player(name, 0);
     });
 
     $('#join').on('click', () => {
@@ -154,7 +155,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
             name,
             room: roomID
         });
-        player = new Player(name);
+        // player = new Player(name, 0);
     });
 
     // New Game created by current client. Update the UI and create new Game var.
@@ -162,8 +163,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
         const message =
             `Hello, ${data.name}. Please ask your friend to enter Game ID: 
         ${data.room}. Waiting for others..`;
-
-        // Create game for player 1
+        player = new Player(data.name, data.id);
         game = new Game(data.room);
         game.displayCards(message);
     });
@@ -180,9 +180,9 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
 
     socket.on('player2', (data) => {
         const message = `Hello, ${data.name}`;
-
         game = new Game(data.room);
-        game.displayBoard(message);
+        game.displayCards(message);
+        player = new Player(data.name, data.id);
         player.setCurrentTurn(false);
     });
 
@@ -191,7 +191,7 @@ const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3',
         const col = data.tile.split('_')[1][1];
         const opponentType = player.getPlayerType() === P1 ? P2 : P1;
 
-        game.updateBoard(card);
+        game.updateCards(card);
         player.setCurrentTurn(true);
     });
 
