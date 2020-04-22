@@ -6,10 +6,14 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 
 let rooms = 0;
-const CARDS = ['r', 'b', 'g', 'y'];
-const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'rev', 'skip', 'wild', '+2', '+4'];
+const CARDS = ['red', 'blue', 'green', 'yellow'];
+const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'reverse', 'skip', '+2'];
+const special = ['wild', '+4'];
 
-// app.use(express.static('../../public'));
+app.use(express.static('../public'));
+app.use(express.static('../public/img'));
+app.use(express.static('../public/css'));
+app.use(express.static('../public/js'));
 
 io.on('connection', (socket) => {
 
@@ -36,10 +40,7 @@ io.on('connection', (socket) => {
             if (room.length === 4) {
                 var color = CARDS[Math.floor(Math.random() * CARDS.length)];
                 var digit = digits[Math.floor(Math.random() * 19)];
-                var card = color + '-' + digit;
-                // socket.broadcast.to(data.room).emit('player1', {
-                //     card
-                // })
+                var card = color + digit;
                 socket.nsp.to(data.room).emit('player1', { card });
             }
         } else {

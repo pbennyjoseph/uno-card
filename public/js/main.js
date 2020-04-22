@@ -1,11 +1,15 @@
 const CARDS = ['red', 'blue', 'green', 'yellow'];
 const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'reverse', 'skip', '+2'];
 const special = ['wild', '+4'];
+
+const pre = '<div class="col"><div class="card"><div class="card-body">';
+const post = '</div></div></div>';
 let player;
 let game;
 
 $('footer').hide();
 $('#gameDiv').hide();
+$('#allCards').hide();
 
 $('#new').on('click', () => {
     const name = $('#name').val();
@@ -17,6 +21,7 @@ $('#new').on('click', () => {
     
     $('footer').show();
     $('#gameDiv').show();
+    $('#allCards').show();
 
     socket.emit('createGame', {
         name,
@@ -38,6 +43,7 @@ $('#join').on('click', () => {
 
     $('footer').show();
     $('#gameDiv').show();
+    $('#allCards').show();
 
     socket.emit('joinGame', {
         name,

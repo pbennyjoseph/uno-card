@@ -53,10 +53,7 @@ class Game {
     createGameTable() {
         var initArray = player.getPlaysArr();
         for (var i = 0; i < initArray.length; ++i) {
-            var randId = makeid(5);
-            var src = './img/uno_card-'+initArray[i]+'.webp';
-            $("#mycards").append(`<div class="col"><img src="${src}" class="uno-card img-responsive" style="width:100%;" alt = "${initArray[i]}" value="${initArray[i]}" id="${randId}"/></div>`);
-            $(`#${randId}`).on('click', cardClickHandler);
+            pushCard(initArray[i]);
         }
     }
 
@@ -71,9 +68,9 @@ class Game {
 
     playTurn(cardElem) {
         const clickedCard = $(cardElem).attr('value');
-        $("#tableCard").html(clickedCard);
-        console.log("inside playTurn with");
-        console.log(cardElem);
+        var src = './img/uno_card-'+ clickedCard +'.webp';
+        $("#tableCard").attr('src', src);
+        $("#tableCard").attr('value', clickedCard);
         let draw, reverse = 0,
             hasSkip = 1;
         if (clickedCard.includes('rev'))
@@ -114,21 +111,22 @@ class Game {
         location.reload();
     }
 
-    updateDeck(){
-        if(! player.getCurrentTurn()) return false;
-        var deck = $('.uno-card');
-        var tableVal = $("#tableCard").html();
-        for(var i = 0;i < deck.length; ++i){
-            $(deck[i]).attr('disabled');
-            var value = $(deck[i]).attr('value');
-            for(i in CARDS){
-                if(tableVal.includes(CARDS[i]) && value.includes(CARDS[i])){
-                    $(deck[i]).removeAttr('disabled');
-                    break;
-                }
-            }
-        }
-    }
+    // updateDeck(){
+    //     return false;
+    //     if(! player.getCurrentTurn()) return false;
+    //     var deck = $('.uno-card');
+    //     var tableVal = $("#tableCard").html();
+    //     for(var i = 0;i < deck.length; ++i){
+    //         $(deck[i]).attr('disabled');
+    //         var value = $(deck[i]).attr('value');
+    //         for(i in CARDS){
+    //             if(tableVal.includes(CARDS[i]) && value.includes(CARDS[i])){
+    //                 $(deck[i]).removeAttr('disabled');
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // }
 
     endGame(message) {
         alert(message);

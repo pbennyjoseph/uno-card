@@ -75,7 +75,7 @@ body {
   padding-top: 40px;
   padding-bottom: 40px;
   font-family: "archia";
-  background-image: url("http://benny/uno/uno-card/public/img/logo.png") ;
+  background-image: url("../img/logo.png") ;
   background-color: #f5f5f5;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -90,6 +90,7 @@ body {
 .form-signin {
   width: 100%;
   max-width: 330px;
+  max-height: 400px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -138,4 +139,9 @@ body {
 
 img {
   cursor: pointer;
+}
+
+#tableCard{
+  width: 50%;
+  height: 50%;
 }

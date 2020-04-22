@@ -22,6 +22,7 @@ function makeid(length) {
 }
 
 function cardClickHandler() {
+
     if (!player.getCurrentTurn() || !game) {
         alert('Its not your turn!');
         return;
@@ -31,10 +32,35 @@ function cardClickHandler() {
         alert('This tile has already been played on!');
         return;
     }
-
+    var cardSlug = $(this).attr('value');
+    var tableSlug = $("#tableCard").attr('value');
+    var valid = false;
+    for(i in special){
+        if(valid) break;
+        if(cardSlug.includes(special[i]))
+            valid = true;
+    }
+    for(i in CARDS){
+        if(valid) break;
+        if(cardSlug.includes(CARDS[i]) && tableSlug.includes(CARDS[i]))
+            valid = true;
+    }
+    for(i in digits){
+        if(valid) break;
+        if(cardSlug.includes(CARDS[i]) && tableSlug.includes(digits[i]))
+            valid = true;
+    }
+    if(!valid) return false;
     game.playTurn(this);
     this.remove();
     --player.hasCards;
     player.setCurrentTurn(false);
     game.checkWinner();
+}
+
+function pushCard(card){
+    var randId = makeid(5);
+    var src = './img/uno_card-'+ card +'.webp';
+    $("#mycards").append(`<div class="col"><img src="${src}" class="uno-card img-responsive" style="width:100%;" alt = "${card}" value="${card}" id="${randId}"/></div>`);
+    $(`#${randId}`).on('click', cardClickHandler);
 }

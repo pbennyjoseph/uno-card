@@ -50,29 +50,39 @@
 		</div>
 	</div>
 
-
-	<div class="form">
+	<center>
+	<div class="fixed-top text-center">
 		<div id="gameDiv" class="card">
 			<div class="card-body">
-				<h3 id="userHello">
-					</h2>
-					<h3 id="turn"></h3>
-					<span id="table">
-
-					</span>
+				<h6 id="userHello"></h3>
+				<h6 id="turn"></h3>
+				<span id="table">
+					
+				</span>
 			</div>
 			<!-- <div id="startGameDiv">
 			</div>  -->
 		</div>
 	</div>
-	
-	<div class="card">
+	</center>
+
+	<div class="card fixed-bottom" id="allCards">
 		<div class="card-body">
 			<h5 class="card-title text-center">Your Cards</h5>
-			<div class="row" id="mycards">
-			</div>
+			<span class="row" id="mycards">
+
+			</span>
 		</div>
 	</div>
+
+	<!-- <div class="row fixed-bottom" id="allCards">
+		<div class="card">
+			<div class="card-body" id="mycards">
+				<h5 class="card-title text-center">Your Cards</h5>
+
+			</div>
+		</div>
+	</div> -->
 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js">
 	</script>
