@@ -1,6 +1,13 @@
 function randCard() {
-    var color = CARDS[Math.floor(Math.random() * CARDS.length)];
-    var digit = digits[Math.floor(Math.random() * digits.length)];
+    let color, digit;
+    if(Math.random() < 0.8){
+        color = CARDS[Math.floor(Math.random() * CARDS.length)];
+        digit = digits[Math.floor(Math.random() * digits.length)];
+    }
+    else{
+        color = '';
+        digit = special[Math.floor(Math.random() * special.length)];
+    }
     return color + digit;
 }
 

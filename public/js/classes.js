@@ -55,7 +55,7 @@ class Game {
         for (var i = 0; i < initArray.length; ++i) {
             var randId = makeid(5);
             var src = './img/uno_card-'+initArray[i]+'.webp';
-            $("#mycards").append(`<img src="${src}" class="img-fluid" alt = "${initArray[i]}" value="${initArray[i]}" id="${randId}"/>`);
+            $("#mycards").append(`<div class="col"><img src="${src}" class="uno-card img-responsive" style="width:100%;" alt = "${initArray[i]}" value="${initArray[i]}" id="${randId}"/></div>`);
             $(`#${randId}`).on('click', cardClickHandler);
         }
     }
@@ -112,6 +112,22 @@ class Game {
         });
         // alert(winMessage);
         location.reload();
+    }
+
+    updateDeck(){
+        if(! player.getCurrentTurn()) return false;
+        var deck = $('.uno-card');
+        var tableVal = $("#tableCard").html();
+        for(var i = 0;i < deck.length; ++i){
+            $(deck[i]).attr('disabled');
+            var value = $(deck[i]).attr('value');
+            for(i in CARDS){
+                if(tableVal.includes(CARDS[i]) && value.includes(CARDS[i])){
+                    $(deck[i]).removeAttr('disabled');
+                    break;
+                }
+            }
+        }
     }
 
     endGame(message) {

@@ -13,13 +13,15 @@ socket.on('turnPlayed', (data) => {
         for (var i = 0; i < data.draw; ++i) {
             ++player.hasCards;
             var card = randCard();
-            var randId = makeid(5)
-            $("#mycards").append(`<button class="btn btn-primary mx-1 my-1" value="${card}" id="${randId}">${card}</button>`)
+            var randId = makeid(5);
+            var src = './img/uno_card-'+initArray[i]+'.webp';
+            $("#mycards").append(`<div class="col"><img src="${src}" class="uno-card img-responsive" style="width:100%;" alt = "${card}" value="${card}" id="${randId}"/></div>`);
             $(`#${randId}`).on('click', cardClickHandler);
         }
         $("#userHello").html("You were made to draw " + data.draw);
     }
     $("#tableCard").html(data.card);
+    game.updateDeck();
 });
 
 socket.on('gameEnd', (data) => {
@@ -44,6 +46,7 @@ socket.on('newGame', (data) => {
 
 socket.on('player1', (data) => {
     $('#table').append(`<button class="btn btn-primary mx-1 my-1" value="${data.card}" id="tableCard">${data.card}</button>`);
+    game.updateDeck();
     if (!player.creator) return false;
     const message = `Hello, ${player.getPlayerName()}`;
     $('#userHello').html(message);

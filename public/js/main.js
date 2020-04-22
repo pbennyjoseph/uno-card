@@ -1,10 +1,11 @@
 const CARDS = ['red', 'blue', 'green', 'yellow'];
-const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'reverse', 'skip', 'wild', '+2', '+4'];
+const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'reverse', 'skip', '+2'];
+const special = ['wild', '+4'];
 let player;
 let game;
 
-$('.footer').hide();
-$('.card').hide();
+$('footer').hide();
+$('#gameDiv').hide();
 
 $('#new').on('click', () => {
     const name = $('#name').val();
@@ -14,8 +15,8 @@ $('#new').on('click', () => {
     }
     $("#starterForm").hide();
     
-    $('.footer').show();
-    $('.card').show();
+    $('footer').show();
+    $('#gameDiv').show();
 
     socket.emit('createGame', {
         name,
@@ -35,8 +36,8 @@ $('#join').on('click', () => {
 
     $("#starterForm").hide();
 
-    $('.footer').show();
-    $('.card').show();
+    $('footer').show();
+    $('#gameDiv').show();
 
     socket.emit('joinGame', {
         name,

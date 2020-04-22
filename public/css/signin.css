@@ -1,17 +1,65 @@
+@font-face {
+  font-family: "Archia";
+  src: url(https://www.covid19india.org/static/media/archia-thin-webfont.47f5c030.eot);
+  src: url(https://www.covid19india.org/static/media/archia-thin-webfont.47f5c030.eot) format("embedded-opentype"), url(https://www.covid19india.org/static/media/archia-thin-webfont.e88f1cf3.woff2) format("woff2"), url(https://www.covid19india.org/static/media/archia-thin-webfont.0345166e.woff) format("woff"), url(https://www.covid19india.org/static/media/archia-thin-webfont.9a733c1c.ttf) format("truetype");
+  font-weight: 100;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "Archia";
+  src: url(https://www.covid19india.org/static/media/archia-light-webfont.bd903ad6.eot);
+  src: url(https://www.covid19india.org/static/media/archia-light-webfont.bd903ad6.eot) format("embedded-opentype"), url(https://www.covid19india.org/static/media/archia-light-webfont.e1f0cf91.woff2) format("woff2"), url(https://www.covid19india.org/static/media/archia-light-webfont.119d7372.woff) format("woff"), url(https://www.covid19india.org/static/media/archia-light-webfont.a1a88c46.ttf) format("truetype");
+  font-weight: 200;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "Archia";
+  src: url(https://www.covid19india.org/static/media/archia-regular-webfont.e0d9eab3.eot);
+  src: url(https://www.covid19india.org/static/media/archia-regular-webfont.e0d9eab3.eot) format("embedded-opentype"), url(https://www.covid19india.org/static/media/archia-regular-webfont.02155d96.woff2) format("woff2"), url(https://www.covid19india.org/static/media/archia-regular-webfont.571e4671.woff) format("woff"), url(https://www.covid19india.org/static/media/archia-regular-webfont.44b223ad.ttf) format("truetype");
+  font-weight: 300;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "Archia";
+  src: url(https://www.covid19india.org/static/media/archia-medium-webfont.93462af3.eot);
+  src: url(https://www.covid19india.org/static/media/archia-medium-webfont.93462af3.eot) format("embedded-opentype"), url(https://www.covid19india.org/static/media/archia-medium-webfont.80da55a5.woff2) format("woff2"), url(https://www.covid19india.org/static/media/archia-medium-webfont.b325c0d3.woff) format("woff"), url(https://www.covid19india.org/static/media/archia-medium-webfont.0a3767d8.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "Archia";
+  src: url(https://www.covid19india.org/static/media/archia-semibold-webfont.90c5d848.eot);
+  src: url(https://www.covid19india.org/static/media/archia-semibold-webfont.90c5d848.eot) format("embedded-opentype"), url(https://www.covid19india.org/static/media/archia-semibold-webfont.890ee929.woff2) format("woff2"), url(https://www.covid19india.org/static/media/archia-semibold-webfont.21351f93.woff) format("woff"), url(https://www.covid19india.org/static/media/archia-semibold-webfont.6f45094f.ttf) format("truetype");
+  font-weight: 600;
+  font-style: normal
+}
+
+@font-face {
+  font-family: "Archia";
+  src: url(https://www.covid19india.org/static/media/archia-bold-webfont.86e07a42.eot);
+  src: url(https://www.covid19india.org/static/media/archia-bold-webfont.86e07a42.eot) format("embedded-opentype"), url(https://www.covid19india.org/static/media/archia-bold-webfont.ad8463d1.woff2) format("woff2"), url(https://www.covid19india.org/static/media/archia-bold-webfont.a22268c8.woff) format("woff"), url(https://www.covid19india.org/static/media/archia-bold-webfont.9bc3d640.ttf) format("truetype");
+  font-weight: 900;
+  font-style: normal
+}
+
 html,
 body {
   height: 100%;
 }
 
 #CreateGame,
-#JoinGame{
-    display: inline-block;
+#JoinGame {
+  display: inline-block;
 }
 
-#form{
+#form {
   margin: 0 auto;
   max-width: 600px;
-  padding: 20px 0; 
+  padding: 20px 0;
 }
 
 body {
@@ -26,9 +74,16 @@ body {
   justify-content: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  /*background-image: url("./gradient.png");*/
-  background-color: #006600;
-  margin-bottom: 60px; /* Margin bottom by footer height */
+  font-family: "archia";
+  background-image: url("http://benny/uno/uno-card/public/img/logo.png") ;
+  background-color: #f5f5f5;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  margin-bottom: 60px;
+  /* Margin bottom by footer height */
 
 }
 
@@ -42,6 +97,7 @@ body {
 .form-signin .checkbox {
   font-weight: 400;
 }
+
 .form-signin .form-control {
   position: relative;
   box-sizing: border-box;
@@ -66,26 +122,20 @@ body {
   border-top-right-radius: 0;
 }
 
-.footer {
-  position: absolute;
-    bottom: 0;
-    background-color: #006600;
-    height: 250px;
-    font-family: 'Open Sans', sans-serif;
-    color: #FFFFFF;
-    padding: 20px;
-}
-
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
 #container {
-  width:1000px;
+  width: 1000px;
   padding: 0 15px;
-  height:90px;
+  height: 90px;
 }
 
-#mycards{
+#mycards {
   position: center;
+}
+
+img {
+  cursor: pointer;
 }

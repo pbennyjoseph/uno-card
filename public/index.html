@@ -29,42 +29,53 @@
 
 <body>
 
-	<form class="form" id="starterForm">
-		<input id="name" type="text" class="form-control mb-3" placeholder="Player Name" aria-label="Player Name"
-			aria-describedby="basic-addon2" required>
 
-		<input id="room" type="text" class="form-control mb-3" placeholder="Enter Code" aria-label="Enter Code"
-			aria-describedby="basic-addon2">
-		<!-- 
-		<label for="players" id="playerLabel">Players: 2</label>
-		<input type="range" class="custom-range" min="2" max="12" step="1" id="players" value="2"> -->
+	<div class="card" id="starterForm">
+		<div class="card-body">
+			<h5 class="card-title">The Uno Card Game</h5>
+			<form class="form">
+				<input id="name" type="text" class="form-control mb-3" placeholder="Player Name"
+					aria-label="Player Name" aria-describedby="basic-addon2" required>
 
-		<button id="new" class="btn btn-primary btn-block">Create New Game</button>
+				<input id="room" type="text" class="form-control mb-3" placeholder="Enter Code" aria-label="Enter Code"
+					aria-describedby="basic-addon2">
+				<!-- 
+			<label for="players" id="playerLabel">Players: 2</label>
+			<input type="range" class="custom-range" min="2" max="12" step="1" id="players" value="2"> -->
 
-		<button id="join" class="btn btn-primary btn-block">Join Game</button>
-	</form>
+				<button id="new" class="btn btn-outline-primary btn-block">Create New Game</button>
+
+				<button id="join" class="btn btn-outline-primary btn-block">Join Game</button>
+			</form>
+		</div>
+	</div>
+
 
 	<div class="form">
-		<div class="card">
+		<div id="gameDiv" class="card">
 			<div class="card-body">
-				<h3 id="userHello"></h2>
-				<h3 id="turn"></h3>
-				<span id="table">
-					
-				</span>
+				<h3 id="userHello">
+					</h2>
+					<h3 id="turn"></h3>
+					<span id="table">
+
+					</span>
 			</div>
 			<!-- <div id="startGameDiv">
 			</div>  -->
 		</div>
 	</div>
-
-	<div  class="footer">
-		<!-- <div id="container"> --> <!-- beacaue of comenting this cardbuttons were i center -->
-			<span id="mycards"></span>
-		<!-- </div> -->
+	
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title text-center">Your Cards</h5>
+			<div class="row" id="mycards">
+			</div>
+		</div>
 	</div>
 
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js">
+	</script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
 	<script type="text/javascript" src="js/classes.js"></script>
