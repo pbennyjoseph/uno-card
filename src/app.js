@@ -10,10 +10,7 @@ const CARDS = ['red', 'blue', 'green', 'yellow'];
 const digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'reverse', 'skip', '+2'];
 const special = ['wild', '+4'];
 
-app.use(express.static('../public'));
-app.use(express.static('../public/img'));
-app.use(express.static('../public/css'));
-app.use(express.static('../public/js'));
+app.use(express.static('./public'));
 
 io.on('connection', (socket) => {
 
@@ -24,7 +21,7 @@ io.on('connection', (socket) => {
             room: `room-${rooms}`,
             id: 0
         });
-        console.log('Creating new game');
+        // console.log('Creating new game');
     });
 
     socket.on('joinGame', function (data) {
@@ -48,7 +45,7 @@ io.on('connection', (socket) => {
                 message: 'Sorry, The room is full!'
             });
         }
-        console.log('joining new game');
+        // console.log('joining new game');
     });
 
     socket.on('playTurn', (data) => {
