@@ -21,7 +21,7 @@ $('#new').on('click', () => {
     
     $('footer').show();
     $('#gameDiv').show();
-    $('#allCards').show();
+    // $('#allCards').show();
 
     socket.emit('createGame', {
         name,
@@ -43,7 +43,7 @@ $('#join').on('click', () => {
 
     $('footer').show();
     $('#gameDiv').show();
-    $('#allCards').show();
+    // $('#allCards').show();
 
     socket.emit('joinGame', {
         name,

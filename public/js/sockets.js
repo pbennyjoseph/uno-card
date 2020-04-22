@@ -27,12 +27,13 @@ socket.on('gameEnd', (data) => {
 });
 
 socket.on('err', (data) => {
-    game.endGame(data.message);
+    alert('Something went wront with us or the room does not exist!');
+    location.reload();
 });
 
 socket.on('newGame', (data) => {
     const message =
-        `Hello, ${data.name}.<br> Please ask your friend to enter Game ID: 
+        `Hello, ${data.name}.<br> Please ask your friends to enter Game ID: 
         ${data.room}<br>Waiting for others..`;
     player = new Player(data.name, data.id);
     player.creator = true;
@@ -43,18 +44,11 @@ socket.on('newGame', (data) => {
 
 socket.on('player1', (data) => {
     var src = './img/uno_card-'+ data.card +'.webp' ;
+    $('#allCards').show();
     $('#table').append(`<img src="${src}" class="img-responsive" style="width: 200px; height: 200px;" alt = "${data.card}" value="${data.card}" id="tableCard"/>`);
     if (!player.creator) return false;
     const message = `Hello, ${player.getPlayerName()}`;
     $('#userHello').html(message);
-    // $("#startGameDiv").append(`<button id="startGame" class="btn btn-primary">Start Game</button>`);
-    // $("#startGame").on('click', () => {
-    //     var color = CARDS[Math.floor(Math.random() * CARDS.length)];
-    //     var digit = digits[Math.floor(Math.random() * 19)];
-    //     var card = color + '-' + digit;
-    //     socket.emit('gameStart', {card: card});
-    //     $("#startGameDiv").remove();
-    // });
     player.setCurrentTurn(true);
 });
 

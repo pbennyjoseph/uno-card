@@ -37,7 +37,7 @@ function cardClickHandler() {
     var valid = false;
     for(i in special){
         if(valid) break;
-        if(cardSlug.includes(special[i]))
+        if(cardSlug.includes(special[i]) || tableSlug.includes(special[i]))
             valid = true;
     }
     for(i in CARDS){
@@ -47,10 +47,10 @@ function cardClickHandler() {
     }
     for(i in digits){
         if(valid) break;
-        if(cardSlug.includes(CARDS[i]) && tableSlug.includes(digits[i]))
+        if(cardSlug.includes(digits[i]) && tableSlug.includes(digits[i]))
             valid = true;
     }
-    if(!valid) return false;
+    if(valid === false) return false;
     game.playTurn(this);
     this.remove();
     --player.hasCards;
