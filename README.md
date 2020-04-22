@@ -1,4 +1,4 @@
-# The UNO card game
+# The UNO card game 🔥🃏
 
 ### How to install
   - clone the repo with `git clone git@github.com:pbennyjoseph/uno-card.git`
@@ -12,4 +12,3 @@
 - The first person to lose all cards wins!! 
 
 ### Feel free to contribute to the code
-
