@@ -9,6 +9,6 @@
 - Create a room and get the room-id.
 - share the room-id with 4 of your friends.
 - Once everyone has logged in, Your cards start to show up.
-- The first person to lose all cards wins!! 
+- The first person to get rid of all cards wins!! 
 
 ### Feel free to contribute to the code
