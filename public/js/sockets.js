@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:5000');
+const socket = io.connect('http://unocard-game.herokuapp.com');
 
 socket.on('turnPlayed', (data) => {
     // TODO player logic to change image
